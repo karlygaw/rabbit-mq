@@ -1,15 +1,13 @@
 package kz.narxoz.rabbit.dist1rabbit.api;
 
+import kz.narxoz.rabbit.dist1rabbit.dto.Message;
 import kz.narxoz.rabbit.dist1rabbit.dto.OrderDTO;
 import kz.narxoz.rabbit.dist1rabbit.service.MessageSender;
 import kz.narxoz.rabbit.dist1rabbit.service.OrderPublisherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/rabbit")
@@ -36,6 +34,17 @@ public class RabbitController {
             return new ResponseEntity<>("Order sent Successfully", HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>("Failed to send to all", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping(value = "/send-message/{departmentName}")
+    public ResponseEntity<String> sendMessage(@PathVariable(name = "departmentName") String departmentName,
+                                              @RequestBody Message message){
+        try{
+            messageSender.sendData(message, departmentName);
+            return new ResponseEntity<>("Message Sent Successfully!", HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>("Failed to send message to topic", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

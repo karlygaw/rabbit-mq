@@ -1,6 +1,7 @@
 package kz.narxoz.rabbit.dist1rabbit.config;
 
 
+import kz.narxoz.rabbit.dist1rabbit.dto.Message;
 import kz.narxoz.rabbit.dist1rabbit.dto.OrderDTO;
 import org.springframework.amqp.support.converter.DefaultClassMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -25,6 +26,7 @@ public class RabbitConfig {
         DefaultClassMapper classMapper = new DefaultClassMapper();
         Map<String, Class<?>> idClassMapping = new HashMap<>();
         idClassMapping.put("kz.narxoz.rabbit.dist1rabbitreceiver.dto.OrderDTO", OrderDTO.class);
+        idClassMapping.put("kz.narxoz.rabbit.dist1rabbitreceiver.dto.Message", Message.class);
         classMapper.setIdClassMapping(idClassMapping);
         return classMapper;
     }
